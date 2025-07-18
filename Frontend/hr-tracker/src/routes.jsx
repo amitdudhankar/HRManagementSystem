@@ -4,12 +4,11 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-
 import { Suspense } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import { Toaster } from "react-hot-toast"; // ✅ Import
+import { Toaster } from "react-hot-toast";
 import Candidates from "./pages/Candidates";
 
 // Route wrapper to detect location changes
@@ -31,7 +30,8 @@ const RouteWrapper = () => {
 const AppRoutes = () => {
   return (
     <Router>
-      <Toaster position="top-right" reverseOrder={false} /> {/* ✅ Global toast container */}
+      <Toaster position="top-right" reverseOrder={false} />{" "}
+      {/* Global toast container */}
       <RouteWrapper />
     </Router>
   );

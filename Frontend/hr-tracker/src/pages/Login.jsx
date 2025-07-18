@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginHR } from "../services/api"; // Update path as needed
+import { loginHR } from "../services/api"; 
 import toast from "react-hot-toast";
 
 const Login = () => {

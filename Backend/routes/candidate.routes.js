@@ -24,8 +24,7 @@ router.get(
   authorizeRoles("admin", "hr"),
   candidateController.getCandidates
 );
-// GET all candidates - accessible by admin and hr
-// routes/candidate.routes.js
+
 router.post("/update-status/:id",
   verifyToken,
   authorizeRoles("admin", "hr"),

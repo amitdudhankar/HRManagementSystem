@@ -2,7 +2,7 @@
 const XLSX = require("xlsx");
 const moment = require("moment");
 const Candidate = require("../models/Candidate");
-const fs = require("fs").promises; // Use promises for async file operations
+const fs = require("fs").promises;
 
 exports.uploadCandidates = async (req, res) => {
   try {
@@ -125,15 +125,15 @@ exports.getCandidateStats = async (req, res) => {
     const todayStart = moment().startOf("day").toDate();
     const todayEnd = moment().endOf("day").toDate();
 
-    // 🧮 Count of all candidates
+    //  Count of all candidates
     const totalCandidates = await Candidate.countDocuments();
 
-    // 🧮 Count of calls made today (any status update today)
+    //  Count of calls made today (any status update today)
     const totalCallsToday = await Candidate.countDocuments({
       updatedAt: { $gte: todayStart, $lte: todayEnd },
     });
 
-    // 🧮 Count by status
+    //  Count by status
     const statusAggregation = await Candidate.aggregate([
       {
         $group: {

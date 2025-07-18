@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 import { getCandidates, uploadExcel } from "../services/api";
-import { candidateStatusUpdate } from "../services/api"; // Add this
+import { candidateStatusUpdate } from "../services/api";
 import toast from "react-hot-toast";
 
 const Candidates = () => {
@@ -19,9 +19,8 @@ const Candidates = () => {
   const fileInputRef = useRef(null);
 
   const limit = 10;
-const user = JSON.parse(localStorage.getItem("user"));
-const userRole = user?.role;
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userRole = user?.role;
 
   const fetchCandidates = async () => {
     setLoading(true);
@@ -60,62 +59,42 @@ const userRole = user?.role;
     fileInputRef.current.click();
   };
 
-  // const handleUploadSubmit = async () => {
-  //   if (!selectedFile) return;
-
-  //   const formData = new FormData();
-  //   formData.append("file", selectedFile);
-
-  //   try {
-  //     const res = await uploadExcel(formData);
-  //     toast.success(
-  //       `${res.data.message || "Upload successful"} (${
-  //         res.data.count || 0
-  //       } candidates)`
-  //     );
-  //     setSelectedFile(null);
-  //     fetchCandidates(); 
-  //   } catch (err) {
-  //     console.error("Upload failed:", err);
-  //     toast.error("Upload failed. Please try again.");
-  //   }
-  // };
-
   const handleUploadSubmit = async () => {
-  if (!selectedFile) return;
+    if (!selectedFile) return;
 
-  const formData = new FormData();
-  formData.append("file", selectedFile);
+    const formData = new FormData();
+    formData.append("file", selectedFile);
 
-  try {
-    const res = await uploadExcel(formData);
-    toast.success(
-      `${res.data.message || "Upload successful"} (${res.data.count || 0} candidates)`
-    );
-    setSelectedFile(null);
-    fetchCandidates();
-  } catch (err) {
-    console.error("Upload failed:", err);
-
-    // Check for duplicate emails in error response
-    if (
-      err.response &&
-      err.response.data &&
-      err.response.data.message === "Duplicate emails found" &&
-      Array.isArray(err.response.data.duplicates)
-    ) {
-      const duplicates = err.response.data.duplicates.slice(0, 5).join(", ");
-      toast.error(
-        `Duplicate emails found: ${duplicates} ${
-          err.response.data.duplicates.length > 5 ? "...and more" : ""
-        }`
+    try {
+      const res = await uploadExcel(formData);
+      toast.success(
+        `${res.data.message || "Upload successful"} (${
+          res.data.count || 0
+        } candidates)`
       );
-    } else {
-      toast.error("Upload failed. Please try again.");
-    }
-  }
-};
+      setSelectedFile(null);
+      fetchCandidates();
+    } catch (err) {
+      console.error("Upload failed:", err);
 
+      // Check for duplicate emails in error response
+      if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message === "Duplicate emails found" &&
+        Array.isArray(err.response.data.duplicates)
+      ) {
+        const duplicates = err.response.data.duplicates.slice(0, 5).join(", ");
+        toast.error(
+          `Duplicate emails found: ${duplicates} ${
+            err.response.data.duplicates.length > 5 ? "...and more" : ""
+          }`
+        );
+      } else {
+        toast.error("Upload failed. Please try again.");
+      }
+    }
+  };
 
   const handleStatusChange = async (id, newStatus) => {
     try {
@@ -188,30 +167,29 @@ const userRole = user?.role;
             />
 
             {userRole !== "hr" && (
-  <div className="flex items-center gap-3">
-    {selectedFile ? (
-      <>
-        <span className="text-sm text-gray-700 font-medium truncate max-w-[160px]">
-          {selectedFile.name}
-        </span>
-        <button
-          onClick={handleUploadSubmit}
-          className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200"
-        >
-          Submit
-        </button>
-      </>
-    ) : (
-      <button
-        onClick={handleUploadClick}
-        className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-green-600 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200"
-      >
-        Upload Excel
-      </button>
-    )}
-  </div>
-)}
-
+              <div className="flex items-center gap-3">
+                {selectedFile ? (
+                  <>
+                    <span className="text-sm text-gray-700 font-medium truncate max-w-[160px]">
+                      {selectedFile.name}
+                    </span>
+                    <button
+                      onClick={handleUploadSubmit}
+                      className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200"
+                    >
+                      Submit
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={handleUploadClick}
+                    className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-green-600 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200"
+                  >
+                    Upload Excel
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="overflow-x-auto bg-white shadow rounded-lg">

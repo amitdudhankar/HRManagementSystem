@@ -17,6 +17,6 @@ const candidateSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-}, { timestamps: true });  // ⬅️ This enables createdAt & updatedAt
+}, { timestamps: true });  // This enables createdAt & updatedAt
 
 module.exports = mongoose.model("Candidate", candidateSchema);

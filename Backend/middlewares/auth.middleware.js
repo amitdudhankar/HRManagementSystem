@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// ✅ Verify JWT Token Middleware
+// Verify JWT Token Middleware
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -20,7 +20,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// ✅ Role-Based Authorization Middleware
+// Role-Based Authorization Middleware
 const authorizeRoles = (...allowedRoles) => {
   return (req, res, next) => {
     const userRole = req.user?.role;
@@ -35,7 +35,7 @@ const authorizeRoles = (...allowedRoles) => {
   };
 };
 
-// ✅ Export both middlewares
+// Export both middlewares
 module.exports = {
   verifyToken,
   authorizeRoles,
