@@ -1,0 +1,10 @@
+[{
+  "_id": {
+    "$oid": "6879e9d703e30078f25a1d39"
+  },
+  "name": "Amit Dudhankar",
+  "email": "akdudhankar11@gmail.com",
+  "password": "$2b$10$H5CPjiN2KAL2q08oSBVrPOsv2INgrmiT5gTDXsP93jGw/fd80PwFa",
+  "role": "admin",
+  "__v": 0
+}]
