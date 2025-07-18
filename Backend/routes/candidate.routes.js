@@ -31,6 +31,12 @@ router.post("/update-status/:id",
   authorizeRoles("admin", "hr"),
   candidateController.updateCandidateStatus
 );
+router.get(
+  "/dashboard-stats",
+  verifyToken,
+  authorizeRoles("admin", "hr"),
+  candidateController.getCandidateStats
+);
 
 
 

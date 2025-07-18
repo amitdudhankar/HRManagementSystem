@@ -42,3 +42,9 @@ export const getCandidates = (search, page = 1, limit = 10) => {
     params: { search, page, limit },
   });
 };
+
+
+export const getDashboardStats = () => {
+  return api.get(`/candidates/dashboard-stats`);
+};
+

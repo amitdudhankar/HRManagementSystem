@@ -1,5 +1,6 @@
 // controllers/candidate.controller.js
 const XLSX = require("xlsx");
+const moment = require("moment");
 const Candidate = require("../models/Candidate");
 const fs = require("fs").promises; // Use promises for async file operations
 
@@ -119,4 +120,48 @@ exports.updateCandidateStatus = async (req, res) => {
     res.status(500).json({ message: "Error updating status" });
   }
 };
+exports.getCandidateStats = async (req, res) => {
+  try {
+    const todayStart = moment().startOf("day").toDate();
+    const todayEnd = moment().endOf("day").toDate();
 
+    // 🧮 Count of all candidates
+    const totalCandidates = await Candidate.countDocuments();
+
+    // 🧮 Count of calls made today (any status update today)
+    const totalCallsToday = await Candidate.countDocuments({
+      updatedAt: { $gte: todayStart, $lte: todayEnd },
+    });
+
+    // 🧮 Count by status
+    const statusAggregation = await Candidate.aggregate([
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const statusCounts = {
+      Connected: 0,
+      "Not Connected": 0,
+      Shortlisted: 0,
+      Rejected: 0,
+      Interested: 0,
+    };
+
+    statusAggregation.forEach((item) => {
+      statusCounts[item._id] = item.count;
+    });
+
+    return res.json({
+      totalCandidates,
+      totalCallsToday,
+      ...statusCounts,
+    });
+  } catch (error) {
+    console.error("Error in getCandidateStats:", error);
+    res.status(500).json({ message: "Failed to get stats" });
+  }
+};
