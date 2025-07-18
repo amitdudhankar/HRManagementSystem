@@ -128,10 +128,12 @@ exports.getCandidateStats = async (req, res) => {
     //  Count of all candidates
     const totalCandidates = await Candidate.countDocuments();
 
-    //  Count of calls made today (any status update today)
+    // Count of calls made today (excluding "Not Connected")
     const totalCallsToday = await Candidate.countDocuments({
       updatedAt: { $gte: todayStart, $lte: todayEnd },
+      status: { $ne: "Not Connected" }, // 👈 Exclude Not Connected
     });
+
 
     //  Count by status
     const statusAggregation = await Candidate.aggregate([
